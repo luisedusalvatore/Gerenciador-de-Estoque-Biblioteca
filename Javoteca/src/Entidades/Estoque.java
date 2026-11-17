@@ -2,7 +2,7 @@ package Entidades;
 
 import java.util.List;
 import java.util.ArrayList;
-import java.util.Collection;
+
 
 public class Estoque {
     private List<itemEstoque> listaEstoque= new ArrayList<itemEstoque>();
