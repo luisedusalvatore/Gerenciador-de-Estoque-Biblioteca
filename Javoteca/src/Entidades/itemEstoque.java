@@ -1,9 +1,9 @@
 package Entidades;
 
-public abstract class itemAcervo {
+public class itemEstoque {
     protected Integer quantidade;
     protected String localizacao;
-    public itemAcervo(Integer quantidade, String localizacao) {
+    public itemEstoque(Integer quantidade, String localizacao) {
         this.quantidade = quantidade;
         this.localizacao = localizacao;
     }
