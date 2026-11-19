@@ -50,5 +50,6 @@ public abstract class ItemAcervo{
         this.dataCadastro = dataCadastro;
     }
 
+    public abstract double calcularMultaDiaria();
     
 }
