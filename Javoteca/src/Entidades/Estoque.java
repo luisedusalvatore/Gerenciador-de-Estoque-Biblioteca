@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 public class Estoque {
     private List<itemEstoque> listaEstoque= new ArrayList<itemEstoque>();
-    private List<String> listaLocalizacao = new ArrayList<>();
+    public List<String> listaLocalizacao = new ArrayList<>();
 
     public Estoque() {
     }
