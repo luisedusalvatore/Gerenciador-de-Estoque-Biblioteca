@@ -25,5 +25,9 @@ public final class Revista extends ItemAcervo{
     public void setIssn(String issn) {
         this.issn = issn;
     }
+    @Override
+    public double calcularMultaDiaria(int dias) {
+        return 0.5*dias;
+    }
     
 }

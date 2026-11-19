@@ -20,5 +20,9 @@ public final class Dvd extends ItemAcervo{
     public void setDuracaoMinutos(Integer duracaoMinutos) {
         this.duracaoMinutos = duracaoMinutos;
     }
+    @Override
+    public double calcularMultaDiaria(int dias) {
+        return 20*dias;
+    }
     
 }

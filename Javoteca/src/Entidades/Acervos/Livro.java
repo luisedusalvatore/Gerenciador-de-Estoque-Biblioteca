@@ -40,5 +40,8 @@ public final class Livro extends ItemAcervo{
     public void setPaginas(Integer paginas) {
         this.paginas = paginas;
     }
-
+    @Override
+    public double calcularMultaDiaria(int dias) {
+        return 2*dias;
+    }
 }
