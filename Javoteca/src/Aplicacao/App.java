@@ -11,7 +11,7 @@ public class App {
 
         do{
             System.out.println("Digite a opção desejada: ");
-            System.out.printf("1 - Cadastrar usuário%n0 - Sair%n");
+            System.out.printf("0 - Sair%n1 - Cadastrar usuário%n2 - Cadastrar Item no Estoque%n3 - Remover Item do Estoque%n4 - Realizar Empréstimo%n5 - Anotar Devolução%n6 - Verificar Multa e Pagar");
             op = sc.nextInt();
 
 
