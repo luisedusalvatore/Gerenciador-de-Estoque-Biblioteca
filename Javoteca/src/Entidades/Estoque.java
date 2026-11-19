@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 public class Estoque {
     private List<itemEstoque> listaEstoque= new ArrayList<itemEstoque>();
+    private List<String> listaLocalizacao = new ArrayList<>();
 
     public Estoque() {
     }
@@ -14,6 +15,12 @@ public class Estoque {
     }
     public void removeItem(itemEstoque Item){
         listaEstoque.remove(Item);
+    }
+    public void addLocal(String local){
+        listaLocalizacao.add(local);
+    }
+    public void removeLocal(String local){
+        listaLocalizacao.remove(local);
     }
     public int totalExemplares(){
         return listaEstoque.size();
