@@ -41,7 +41,4 @@ public final class Livro extends ItemAcervo{
         this.paginas = paginas;
     }
 
-    
-
-    
 }
