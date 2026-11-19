@@ -4,7 +4,7 @@ import java.time.Instant;
 
 import Enumeracoes.StatusExemplar;
 
-public class Livro extends ItemAcervo{
+public final class Livro extends ItemAcervo{
     String autor;
     String isbn;
     Integer paginas;

@@ -4,7 +4,7 @@ import java.time.Instant;
 
 import Enumeracoes.StatusExemplar;
 
-public class Revista extends ItemAcervo{
+public final class Revista extends ItemAcervo{
     private Integer edicao;
     private String issn;
     public Revista(Integer id, String titulo, Integer ano, StatusExemplar status, Instant dataCadastro, Integer edicao,
