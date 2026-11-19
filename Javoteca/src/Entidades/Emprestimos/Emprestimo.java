@@ -3,7 +3,9 @@ package Entidades.Emprestimos;
 import java.time.Instant;
 
 import java.time.Duration;
-import java.time.Period;
+
+
+import Entidades.Acervos.ItemAcervo;
 
 public class Emprestimo {
     Usuario usuario;
@@ -35,6 +37,7 @@ public class Emprestimo {
             return (int) duracao.toDays();
         }
         
+        return 0;
     }
 
     
