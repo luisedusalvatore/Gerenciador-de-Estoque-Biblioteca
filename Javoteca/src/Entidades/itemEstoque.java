@@ -3,6 +3,8 @@ package Entidades;
 public class itemEstoque {
     protected Integer quantidade;
     protected String localizacao;
+    protected ItemAcervo itemAcervo;
+
     public itemEstoque(Integer quantidade, String localizacao) {
         this.quantidade = quantidade;
         this.localizacao = localizacao;
