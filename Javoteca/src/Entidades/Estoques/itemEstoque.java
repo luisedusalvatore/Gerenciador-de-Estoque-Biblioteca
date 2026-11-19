@@ -2,12 +2,12 @@ package Entidades.Estoques;
 
 import Entidades.Acervos.ItemAcervo;
 
-public class itemEstoque {
+public class ItemEstoque {
     protected Integer quantidade;
     protected String localizacao;
     protected ItemAcervo itemAcervo;
 
-    public itemEstoque(Integer quantidade, String localizacao) {
+    public ItemEstoque(Integer quantidade, String localizacao) {
         this.quantidade = quantidade;
         this.localizacao = localizacao;
     }

@@ -5,15 +5,15 @@ import java.util.ArrayList;
 
 
 public class Estoque {
-    private List<itemEstoque> listaEstoque= new ArrayList<itemEstoque>();
+    private List<ItemEstoque> listaEstoque= new ArrayList<ItemEstoque>();
     public List<String> listaLocalizacao = new ArrayList<>();
 
     public Estoque() {
     }
-    public void addItem(itemEstoque Item) {
+    public void addItem(ItemEstoque Item) {
         listaEstoque.add(Item);
     }
-    public void removeItem(itemEstoque Item){
+    public void removeItem(ItemEstoque Item){
         listaEstoque.remove(Item);
     }
     public void addLocal(String local){
@@ -30,7 +30,7 @@ public class Estoque {
     public void ordenar(){
         listaEstoque.sort(null);
     }
-    public List<itemEstoque> getItens() {
+    public List<ItemEstoque> getItens() {
         return listaEstoque;
     }
     
