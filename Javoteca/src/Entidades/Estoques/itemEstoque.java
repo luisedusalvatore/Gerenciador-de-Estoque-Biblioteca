@@ -1,4 +1,6 @@
-package Entidades;
+package Entidades.Estoques;
+
+import Entidades.Acervos.ItemAcervo;
 
 public class itemEstoque {
     protected Integer quantidade;

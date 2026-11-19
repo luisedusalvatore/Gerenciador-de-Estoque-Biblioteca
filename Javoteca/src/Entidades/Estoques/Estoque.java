@@ -1,4 +1,4 @@
-package Entidades;
+package Entidades.Estoques;
 
 import java.util.List;
 import java.util.ArrayList;

@@ -1,4 +1,4 @@
-package Entidades;
+package Entidades.Acervos;
 
 import Enumeracoes.StatusExemplar;
 import java.time.Instant;
