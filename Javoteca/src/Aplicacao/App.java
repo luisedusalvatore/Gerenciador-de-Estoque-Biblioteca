@@ -29,7 +29,7 @@ public class App {
             System.out.println("6 - Anotar Devolução");
             System.out.println("7 - Verificar Multa e Pagar");
             op = sc.nextInt();
-            sc.next();
+            sc.nextLine();
             
             switch (op) {
                 case 1:
@@ -43,6 +43,9 @@ public class App {
                     Instant data = dataDate.atStartOfDay(ZoneId.systemDefault()).toInstant();
                     Usuario usuario = new Usuario(nome, email, data);
                     usuarios.add(usuario);
+                    break;
+                case 2:
+                    
                     break;
             }
         }while(op != 0);
