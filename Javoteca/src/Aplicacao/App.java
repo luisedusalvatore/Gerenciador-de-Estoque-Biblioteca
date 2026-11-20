@@ -1,6 +1,7 @@
 package Aplicacao;
 import Entidades.Estoques.Estoque;
 import Entidades.Estoques.ItemEstoque;
+import Enumeracoes.operacaoAlteracao;
 import Entidades.Acervos.ItemAcervo;
 import Entidades.Acervos.Livro;
 import Entidades.Acervos.Revista;
@@ -29,18 +30,22 @@ public class App {
         Usuarios usuarios = new Usuarios();
         
         do{
-            System.out.println("Digite a opção desejada: ");
-            System.out.println("0 - Sair");
-            System.out.println("1 - Cadastrar usuário");
-            System.out.println("2 - Cadastrar Item no Estoque");
-            System.out.println("3 - Remover Item do Estoque");
-            System.out.println("4 - Alterar a Quantidade de Itens no Estoque");
-            System.out.println("5 - Realizar Empréstimo");
-            System.out.println("6 - Anotar Devolução");
-            System.out.println("7 - Verificar Multa e Pagar");
-            op = sc.nextInt();
-            sc.nextLine();
-            
+            do{
+                System.out.println("Digite a opção desejada: ");
+                System.out.println("0 - Sair");
+                System.out.println("1 - Cadastrar usuário");
+                System.out.println("2 - Cadastrar Item no Estoque");
+                System.out.println("3 - Remover Item do Estoque");
+                System.out.println("4 - Alterar a Quantidade de Itens no Estoque");
+                System.out.println("5 - Realizar Empréstimo");
+                System.out.println("6 - Anotar Devolução");
+                System.out.println("7 - Verificar Multa e Pagar");
+                op = sc.nextInt();
+                sc.nextLine();
+                if(op < 0 || op > 7){
+                    System.out.println("Opção Inválida, tente novamente");
+                }
+            }while(op < 0 || op > 7);
             switch (op) {
                 case 1:
                     System.out.println("Qual o nome do usuário? ");
@@ -57,12 +62,17 @@ public class App {
                 case 2:
                     
                     ItemAcervo itemAcervo = null;
-                    System.out.println("O selecione o tipo de item que sera cadastrado:");
-                    System.out.println("1 - Livro");
-                    System.out.println("2 - Revista");
-                    System.out.println("3 - DVD");
-                    op2 = sc.nextInt();
-                    sc.nextLine();
+                    do{
+                        System.out.println("O selecione o tipo de item que sera cadastrado:");
+                        System.out.println("1 - Livro");
+                        System.out.println("2 - Revista");
+                        System.out.println("3 - DVD");
+                        op2 = sc.nextInt();
+                        sc.nextLine();
+                        if(op2 < 1 || op2 > 3){
+                            System.out.println("Opção Inválida, tente novamente");
+                        }
+                    } while(op2 < 1 || op2 > 3);
                     System.out.println("Digite o nome do item: ");
                     String titulo = sc.nextLine();
                     System.out.println("Digite o ano de criação do item");
@@ -122,7 +132,50 @@ public class App {
                     break;
                 
                 case 4:
+                    System.out.println("Digite o nome do item que você deseja alterar o estoque");
+                    String nomeAltera = sc.nextLine();
+                    int quantidadeAltera;
+                    do{
+                        System.out.println("Selecione a opção desejada:");
+                        System.out.println("1 - Aumentar a quantidade no estoque");
+                        System.out.println("2 - Diminuir a quantidade no estoque");
+                        System.out.println("3 - Alterar a quantidade no estoque");
+                        op2 = sc.nextInt();
+                        sc.nextLine();
+                        if(op < 1 || op > 3){
+                            System.out.println("Opção inválida! tente novamente");
+                        }
+                    }while(op < 1 || op > 3);
+                    switch (op2) {
+                        case 1:
+                            System.out.println("Quantos itens você deseja adicioar ao estoque?");
+                            quantidadeAltera = sc.nextInt();
+                            sc.nextLine();
+                            estoque.alteraQuantidade(nomeAltera, quantidadeAltera, operacaoAlteracao.AUMENTAR);
+                            break;
+                        case 2:
+                            System.out.println("Quantos itens você deseja remover do estoque?");
+                            quantidadeAltera = sc.nextInt();
+                            sc.nextLine();
+                            estoque.alteraQuantidade(nomeAltera, quantidadeAltera, operacaoAlteracao.DIMINUIR);
+                            break;
+                        case 3:
+                            System.out.println("Qual a nova quantidade no estoque? ");
+                            quantidadeAltera = sc.nextInt();
+                            sc.nextLine();
+                            estoque.alteraQuantidade(nomeAltera, quantidadeAltera, operacaoAlteracao.ALTERAR);
+                            break;
+                        default:
+                            break;
+                    }
                     break;
+                case 5:
+                    break;
+                case 6: 
+                    break;
+                case 7:
+                    break;
+
             }
         }while(op != 0);
         System.out.println("Saindo do sistema...");
