@@ -142,10 +142,10 @@ public class App {
                         System.out.println("3 - Alterar a quantidade no estoque");
                         op2 = sc.nextInt();
                         sc.nextLine();
-                        if(op < 1 || op > 3){
+                        if(op2 < 1 || op2 > 3){
                             System.out.println("Opção inválida! tente novamente");
                         }
-                    }while(op < 1 || op > 3);
+                    }while(op2 < 1 || op2 > 3);
                     switch (op2) {
                         case 1:
                             System.out.println("Quantos itens você deseja adicioar ao estoque?");
@@ -154,15 +154,26 @@ public class App {
                             estoque.alteraQuantidade(nomeAltera, quantidadeAltera, operacaoAlteracao.AUMENTAR);
                             break;
                         case 2:
-                            System.out.println("Quantos itens você deseja remover do estoque?");
-                            quantidadeAltera = sc.nextInt();
-                            sc.nextLine();
+                            
+                            do{
+                                System.out.println("Quantos itens você deseja remover do estoque?");
+                                quantidadeAltera = sc.nextInt();
+                                sc.nextLine();
+                                if(quantidadeAltera > estoque.buscarPorTitulo(nomeAltera).getQuantidade()){
+                                    System.out.println("Digite um número válido");
+                                }
+                            }while(quantidadeAltera > estoque.buscarPorTitulo(nomeAltera).getQuantidade());
                             estoque.alteraQuantidade(nomeAltera, quantidadeAltera, operacaoAlteracao.DIMINUIR);
                             break;
                         case 3:
-                            System.out.println("Qual a nova quantidade no estoque? ");
-                            quantidadeAltera = sc.nextInt();
-                            sc.nextLine();
+                            do{
+                                System.out.println("Qual a nova quantidade no estoque? ");
+                                quantidadeAltera = sc.nextInt();
+                                sc.nextLine();
+                                if(quantidadeAltera < 0){
+                                    System.out.println("Digite um número válido");
+                                }
+                            }while(quantidadeAltera < 0);
                             estoque.alteraQuantidade(nomeAltera, quantidadeAltera, operacaoAlteracao.ALTERAR);
                             break;
                         default:
