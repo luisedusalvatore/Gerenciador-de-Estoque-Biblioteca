@@ -240,9 +240,11 @@ public class App {
                         System.out.println("Digite a data de devolução (AAAA-MM-DDTHH:MM:SSZ): ");
                         String dataDev = sc.nextLine();
                         Instant dataDevolucao = Instant.parse(dataDev);
+                        e.registrarDevolucao(dataDevolucao);
                     }
                     break;
                 case 7:
+
                     break;
 
             }
