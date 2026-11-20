@@ -24,5 +24,13 @@ public class ItemEstoque {
     public void setLocalizacao(String localizacao) {
         this.localizacao = localizacao;
     }
+    public ItemAcervo getItemAcervo() {
+        return itemAcervo;
+    }
+    public void setItemAcervo(ItemAcervo itemAcervo) {
+        this.itemAcervo = itemAcervo;
+    }
+    
+
     
 }

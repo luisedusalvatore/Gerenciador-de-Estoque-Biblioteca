@@ -14,4 +14,12 @@ public class Usuarios {
     public void removeUsuario(Usuario u){
         lista.remove(u);
     }
+    public Usuario buscaUsuario(String nome, String email){
+        for(Usuario u : lista){
+            if(u.getNome().equals(nome) && u.getEmail().equals(email)){
+                return u;
+            }
+        }
+        return null;
+    }
 }

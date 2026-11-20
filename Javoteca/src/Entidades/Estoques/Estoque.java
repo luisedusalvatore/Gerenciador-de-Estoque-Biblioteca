@@ -2,6 +2,7 @@ package Entidades.Estoques;
 
 import java.util.List;
 
+import Entidades.Acervos.ItemAcervo;
 import Enumeracoes.operacaoAlteracao;
 
 import java.util.ArrayList;
@@ -55,6 +56,25 @@ public class Estoque {
         }
         }
         return 0;
+    }
+
+    public ItemAcervo realizaEmprestimo(String nome){
+        for(ItemEstoque i : listaEstoque){
+            if(i.getItemAcervo().getTitulo().equals(nome)){
+                if(i.quantidade >= 0){
+                    i.quantidade -= 1;
+                    return i.getItemAcervo();
+                }
+                else{
+                    System.out.println("Item indisponível do acervo");
+                    
+                }
+            }
+            else{
+                System.out.println("Item não encontrado no acervo");
+            }
+        }
+        return null;
     }
     public void ordenar(){
         listaEstoque.sort(null);

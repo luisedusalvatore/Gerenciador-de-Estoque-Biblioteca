@@ -6,6 +6,8 @@ import Entidades.Acervos.ItemAcervo;
 import Entidades.Acervos.Livro;
 import Entidades.Acervos.Revista;
 import Entidades.Acervos.Dvd;
+import Entidades.Emprestimos.Emprestimo;
+import Entidades.Emprestimos.Emprestimos;
 import Entidades.Emprestimos.Usuario;
 import Entidades.Emprestimos.Usuarios;
 
@@ -13,8 +15,6 @@ import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
 public class App {
@@ -28,6 +28,7 @@ public class App {
         LocalDate dataDate;
         Estoque estoque = new Estoque();
         Usuarios usuarios = new Usuarios();
+        Emprestimos emprestimos = new Emprestimos();
         
         do{
             do{
@@ -40,12 +41,14 @@ public class App {
                 System.out.println("5 - Realizar Empréstimo");
                 System.out.println("6 - Anotar Devolução");
                 System.out.println("7 - Verificar Multa e Pagar");
+                System.out.println("8 - Imprimir acervo");
+                System.out.println("9 - Imprimir Usuários");
                 op = sc.nextInt();
                 sc.nextLine();
-                if(op < 0 || op > 7){
+                if(op < 0 || op > 9){
                     System.out.println("Opção Inválida, tente novamente");
                 }
-            }while(op < 0 || op > 7);
+            }while(op < 0 || op > 9);
             switch (op) {
                 case 1:
                     System.out.println("Qual o nome do usuário? ");
@@ -181,6 +184,35 @@ public class App {
                     }
                     break;
                 case 5:
+                    System.out.println("Digite o nome do usuário");
+                    String nomeUser = sc.nextLine();
+                    System.out.println("Digite o email do usuário");
+                    String emailUser = sc.nextLine();
+                    Usuario u = usuarios.buscaUsuario(nomeUser, emailUser);
+                    while(u == null){
+                        System.out.println("Nome e/ou email inválido, tente novamente");
+                        System.out.println("Digite o nome do usuário");
+                        nomeUser = sc.nextLine();
+                        System.out.println("Digite o email do usuário");
+                        emailUser = sc.nextLine();
+                        u = usuarios.buscaUsuario(nomeUser, emailUser);
+                    }
+                    System.out.println("Digite o nome do título");
+                    String nomeTitulo = sc.nextLine();
+                    ItemAcervo itemEmprestimo =  estoque.realizaEmprestimo(nomeTitulo);
+                    if(itemEmprestimo == null) break;
+                    System.out.println("Qual a data de empréstimo (dd/MM/yyyy)");
+                    dataString = sc.nextLine();
+                    dataDate = LocalDate.parse(dataString, formato);
+                    Instant dataEmprestimo = dataDate.atStartOfDay(ZoneId.systemDefault()).toInstant();
+                    System.out.println("Qual a data prevista para a devolução (dd/MM/yyyy)");
+                    dataString = sc.nextLine();
+                    dataDate = LocalDate.parse(dataString, formato);
+                    Instant dataPrevistaDevolucao = dataDate.atStartOfDay(ZoneId.systemDefault()).toInstant();
+                    Emprestimo emprestimo = new Emprestimo(u, itemEmprestimo, dataEmprestimo, dataPrevistaDevolucao);
+                    emprestimos.addEmprestimo(emprestimo);
+
+
                     break;
                 case 6: 
                     break;
