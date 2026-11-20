@@ -2,14 +2,13 @@ package Entidades.Acervos;
 
 import java.time.Instant;
 
-import Enumeracoes.StatusExemplar;
 
 public final class Dvd extends ItemAcervo{
     private Integer duracaoMinutos;
 
-    public Dvd(Integer id, String titulo, Integer ano, StatusExemplar status, Instant dataCadastro,
+    public Dvd(String titulo, Integer ano, Instant dataCadastro,
             Integer duracaoMinutos) {
-        super(id, titulo, ano, status, dataCadastro);
+        super(titulo, ano, dataCadastro);
         this.duracaoMinutos = duracaoMinutos;
     }
 

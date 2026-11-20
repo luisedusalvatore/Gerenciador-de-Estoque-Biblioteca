@@ -7,9 +7,10 @@ public class ItemEstoque {
     protected String localizacao;
     protected ItemAcervo itemAcervo;
 
-    public ItemEstoque(Integer quantidade, String localizacao) {
+    public ItemEstoque(Integer quantidade, String localizacao, ItemAcervo itemAcervo) {
         this.quantidade = quantidade;
         this.localizacao = localizacao;
+        this.itemAcervo = itemAcervo;
     }
     public Integer getQuantidade() {
         return quantidade;

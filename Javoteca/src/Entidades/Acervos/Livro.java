@@ -2,16 +2,14 @@ package Entidades.Acervos;
 
 import java.time.Instant;
 
-import Enumeracoes.StatusExemplar;
-
 public final class Livro extends ItemAcervo{
     String autor;
     String isbn;
     Integer paginas;
     
-    public Livro(Integer id, String titulo, Integer ano, StatusExemplar status, Instant dataCadastro, String autor,
+    public Livro(String titulo, Integer ano, Instant dataCadastro, String autor,
             String isbn, Integer paginas) {
-        super(id, titulo, ano, status, dataCadastro);
+        super(titulo, ano, dataCadastro);
         this.autor = autor;
         this.isbn = isbn;
         this.paginas = paginas;

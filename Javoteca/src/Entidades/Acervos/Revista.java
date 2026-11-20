@@ -2,28 +2,18 @@ package Entidades.Acervos;
 
 import java.time.Instant;
 
-import Enumeracoes.StatusExemplar;
 
 public final class Revista extends ItemAcervo{
     private Integer edicao;
-    private String issn;
-    public Revista(Integer id, String titulo, Integer ano, StatusExemplar status, Instant dataCadastro, Integer edicao,
-            String issn) {
-        super(id, titulo, ano, status, dataCadastro);
+    public Revista(String titulo, Integer ano, Instant dataCadastro, Integer edicao) {
+        super(titulo, ano, dataCadastro);
         this.edicao = edicao;
-        this.issn = issn;
     }
     public Integer getEdicao() {
         return edicao;
     }
     public void setEdicao(Integer edicao) {
         this.edicao = edicao;
-    }
-    public String getIssn() {
-        return issn;
-    }
-    public void setIssn(String issn) {
-        this.issn = issn;
     }
     @Override
     public double calcularMultaDiaria(int dias) {
