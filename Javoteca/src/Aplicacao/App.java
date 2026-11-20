@@ -6,6 +6,7 @@ import Entidades.Acervos.Livro;
 import Entidades.Acervos.Revista;
 import Entidades.Acervos.Dvd;
 import Entidades.Emprestimos.Usuario;
+import Entidades.Emprestimos.Usuarios;
 
 import java.time.Instant;
 import java.time.LocalDate;
@@ -25,7 +26,8 @@ public class App {
         String dataString;
         LocalDate dataDate;
         Estoque estoque = new Estoque();
-        List<Usuario> usuarios = new ArrayList<>();
+        Usuarios usuarios = new Usuarios();
+        
         do{
             System.out.println("Digite a opção desejada: ");
             System.out.println("0 - Sair");
@@ -50,7 +52,7 @@ public class App {
                     dataDate = LocalDate.parse(dataString, formato);
                     Instant data = dataDate.atStartOfDay(ZoneId.systemDefault()).toInstant();
                     Usuario usuario = new Usuario(nome, email, data);
-                    usuarios.add(usuario);
+                    usuarios.addUsuario(usuario);
                     break;
                 case 2:
                     

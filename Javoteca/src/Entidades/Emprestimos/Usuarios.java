@@ -6,8 +6,7 @@ import java.util.List;
 public class Usuarios {
     private List<Usuario> lista = new ArrayList<>();
 
-    public Usuarios(List<Usuario> lista) {
-        this.lista = lista;
+    public Usuarios() {
     }
     public void addUsuario(Usuario u){
         lista.add(u);
