@@ -1,16 +1,15 @@
 package Aplicacao;
-import Entidades.Estoques.Estoque;
-import Entidades.Estoques.ItemEstoque;
-import Enumeracoes.operacaoAlteracao;
+import Entidades.Acervos.Dvd;
 import Entidades.Acervos.ItemAcervo;
 import Entidades.Acervos.Livro;
 import Entidades.Acervos.Revista;
-import Entidades.Acervos.Dvd;
 import Entidades.Emprestimos.Emprestimo;
 import Entidades.Emprestimos.Emprestimos;
 import Entidades.Emprestimos.Usuario;
 import Entidades.Emprestimos.Usuarios;
-
+import Entidades.Estoques.Estoque;
+import Entidades.Estoques.ItemEstoque;
+import Enumeracoes.operacaoAlteracao;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -214,7 +213,34 @@ public class App {
 
 
                     break;
-                case 6: 
+                case 6:
+                    System.out.println("Digite o nome do usuário: ");
+                    String userName = sc.nextLine();
+                    System.out.println("Digite o email do usuário: ");
+                    String userMail = sc.nextLine();
+                    System.out.println("Digite o titulo do item do acervo a ser devolvido");
+                    Usuario u1 = usuarios.buscaUsuario(userName, userMail);
+                    do{
+                        System.out.println("Usuário e/ou email inválido(s). Tente novamente.");
+                        System.out.println("Digite o nome do usuário: ");
+                        userName = sc.nextLine();
+                        System.out.println("Digite o email do usuário: ");
+                        userMail = sc.nextLine();                                            
+                    }while(u1 != null);
+
+                    System.out.print("Digite o título do item a ser devolvido: ");
+                    String itemTitulo = sc.nextLine();
+
+                    Emprestimo e = emprestimos.buscaEmprestimo(u1, itemTitulo);
+                    if (e == null){
+                        System.out.println("Emprestimo não encontrado");
+                    } 
+                    
+                    if(e != null){
+                        System.out.println("Digite a data de devolução (AAAA-MM-DDTHH:MM:SSZ): ");
+                        String dataDev = sc.nextLine();
+                        Instant dataDevolucao = Instant.parse(dataDev);
+                    }
                     break;
                 case 7:
                     break;

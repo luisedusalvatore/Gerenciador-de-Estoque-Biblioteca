@@ -22,4 +22,14 @@ public class Emprestimos {
     public void removeEmprestimo(Emprestimo e){
         emprestimos.remove(e);
     }
+
+    public Emprestimo buscaEmprestimo(Usuario user, String item){
+        for(Emprestimo e: emprestimos){
+            if(user.equals(e.getUsuario()) && item.equals(e.getItem().getTitulo())){
+                return e;
+            }
+        }
+        
+        return null;
+    }
 }
