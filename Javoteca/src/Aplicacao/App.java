@@ -107,6 +107,22 @@ public class App {
                     ItemEstoque itemEstoque = new ItemEstoque(quantidade, localizacao, itemAcervo);
                     estoque.addItem(itemEstoque);
                     break;
+                
+                case 3:
+                    System.out.println("Digite o nome do item que você deseja remover");
+                    String nomeItem = sc.nextLine();
+                    ItemEstoque i = estoque.buscarPorTitulo(nomeItem);
+                    if(i != null){
+                        estoque.removeItem(i);
+                    }
+                    else{
+                        System.out.println("Erro, titulo não achado no sistema");
+                    }
+                    
+                    break;
+                
+                case 4:
+                    break;
             }
         }while(op != 0);
         System.out.println("Saindo do sistema...");
