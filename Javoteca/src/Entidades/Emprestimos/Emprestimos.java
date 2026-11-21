@@ -25,11 +25,13 @@ public class Emprestimos {
 
     public Emprestimo buscaEmprestimo(Usuario user, String item){
         for(Emprestimo e: emprestimos){
-            if(user.equals(e.getUsuario()) && item.equals(e.getItem().getTitulo())){
+            if(user.getEmail().equals(e.getUsuario().getEmail()) && item.equals(e.getItem().getTitulo())){
                 return e;
-            }
-        }
+            } 
+            
+                
 
+        }
         return null;
     }
 

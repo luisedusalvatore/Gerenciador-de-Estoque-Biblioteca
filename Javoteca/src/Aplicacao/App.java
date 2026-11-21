@@ -199,7 +199,10 @@ public class App {
                     System.out.println("Digite o nome do título");
                     String nomeTitulo = sc.nextLine();
                     ItemAcervo itemEmprestimo =  estoque.realizaEmprestimo(nomeTitulo);
-                    if(itemEmprestimo == null) break;
+                    if(itemEmprestimo == null){
+                        System.out.println("Item não encontrado no acervo"); //luisão você tem que avisar quando não tiver item no acervo, fiquei batendo cabeça meia hora
+                        break;
+                    } 
                     System.out.println("Qual a data de empréstimo (dd/MM/yyyy)");
                     dataString = sc.nextLine();
                     dataDate = LocalDate.parse(dataString, formato);
@@ -218,33 +221,34 @@ public class App {
                     String userName = sc.nextLine();
                     System.out.println("Digite o email do usuário: ");
                     String userMail = sc.nextLine();
-                    System.out.println("Digite o titulo do item do acervo a ser devolvido");
                     Usuario u1 = usuarios.buscaUsuario(userName, userMail);
-                    do{
+                    while(u1 == null){
                         System.out.println("Usuário e/ou email inválido(s). Tente novamente.");
                         System.out.println("Digite o nome do usuário: ");
                         userName = sc.nextLine();
                         System.out.println("Digite o email do usuário: ");
-                        userMail = sc.nextLine();                                            
-                    }while(u1 != null);
+                        userMail = sc.nextLine();  
+                        u1 = usuarios.buscaUsuario(userName, userMail);                                          
+                    }
 
                     System.out.print("Digite o título do item a ser devolvido: ");
                     String itemTitulo = sc.nextLine();
 
-                    Emprestimo e = emprestimos.buscaEmprestimo(u1, itemTitulo);
+                    Emprestimo e = emprestimos.buscaEmprestimo(u1, itemTitulo); // função pra saber se o emprestimo existe na lista de emprestimos
                     if (e == null){
                         System.out.println("Emprestimo não encontrado");
                     } 
                     
                     if(e != null){
-                        System.out.println("Digite a data de devolução (AAAA-MM-DDTHH:MM:SSZ): ");
+                        System.out.println("Digite a data de devolução (dd/MM/yyyy): ");
                         String dataDev = sc.nextLine();
-                        Instant dataDevolucao = Instant.parse(dataDev);
-                        e.registrarDevolucao(dataDevolucao);
-                    }
+                        LocalDate dataDateDev = LocalDate.parse(dataDev, formato);
+                        Instant dataDevolucao = dataDateDev.atStartOfDay(ZoneId.systemDefault()).toInstant(); //conversão pra facilitar a digitação da data 
+                        e.registrarDevolucao(dataDevolucao); 
+                    } 
                     break;
                 case 7:
-
+                    //verificar e pagar multa
                     break;
 
             }
