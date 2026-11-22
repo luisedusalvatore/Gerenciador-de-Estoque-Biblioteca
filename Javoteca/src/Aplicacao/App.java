@@ -245,6 +245,9 @@ public class App {
                         LocalDate dataDateDev = LocalDate.parse(dataDev, formato);
                         Instant dataDevolucao = dataDateDev.atStartOfDay(ZoneId.systemDefault()).toInstant(); //conversão pra facilitar a digitação da data 
                         e.registrarDevolucao(dataDevolucao); 
+                        if(e.diasAtraso() == 0){
+                            emprestimos.removeEmprestimo(e); // remove o item da lista caso não haja atraso na entrega
+                        }
                     } 
                     break;
                 case 7:
