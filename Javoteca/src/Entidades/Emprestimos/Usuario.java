@@ -1,6 +1,8 @@
 package Entidades.Emprestimos;
 
 import java.time.Instant;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 
 public class Usuario {
     private String nome;
@@ -66,6 +68,13 @@ public class Usuario {
         this.inventario = inventario;
         this.multa = multa;
         this.valor_multa = valor_multa;
+    }
+
+    @Override
+    public String toString() {
+        DateTimeFormatter formato =  DateTimeFormatter.ofPattern("dd/MM/yyyy").withZone(ZoneId.of("America/Sao_Paulo"));
+
+        return "Usuario: " + nome + " || Email: " + email + " || data de nascimento: " + formato.format(dataNascimento) + "\n";
     }
     
 }

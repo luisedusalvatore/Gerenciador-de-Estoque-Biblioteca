@@ -34,14 +34,14 @@ public class App {
                 System.out.println("Digite a opção desejada: ");
                 System.out.println("0 - Sair");
                 System.out.println("1 - Cadastrar usuário");
-                System.out.println("2 - Cadastrar Item no Estoque");
-                System.out.println("3 - Remover Item do Estoque");
-                System.out.println("4 - Alterar a Quantidade de Itens no Estoque");
-                System.out.println("5 - Realizar Empréstimo");
-                System.out.println("6 - Anotar Devolução");
-                System.out.println("7 - Verificar Multa e Pagar");
+                System.out.println("2 - Cadastrar item no estoque");
+                System.out.println("3 - Remover item do estoque");
+                System.out.println("4 - Alterar a quantidade de itens no estoque");
+                System.out.println("5 - Realizar empréstimo");
+                System.out.println("6 - Anotar devolução");
+                System.out.println("7 - Verificar multa e pagar");
                 System.out.println("8 - Imprimir acervo");
-                System.out.println("9 - Imprimir Usuários");
+                System.out.println("9 - Imprimir usuários");
                 op = sc.nextInt();
                 sc.nextLine();
                 if(op < 0 || op > 9){
@@ -298,6 +298,18 @@ public class App {
                         user.atualizarStatusEmprestimo(inv, false, 0.0);
                         break;
                     }
+                case 8:
+                    for(ItemEstoque ie : estoque.getItens()){
+                        System.out.println(ie);
+                    }
+
+                    break;
+                case 9:
+                    for(Usuario user1 : usuarios.getLista()){
+                        System.out.println(user1);
+                    }
+
+                    break;
             }
         }while(op != 0);
         System.out.println("Saindo do sistema...");

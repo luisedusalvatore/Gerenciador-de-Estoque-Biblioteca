@@ -22,4 +22,10 @@ public class Usuarios {
         }
         return null;
     }
+    public List<Usuario> getLista() {
+        return lista;
+    }
+    public void setLista(List<Usuario> lista) {
+        this.lista = lista;
+    }
 }

@@ -30,7 +30,11 @@ public class ItemEstoque {
     public void setItemAcervo(ItemAcervo itemAcervo) {
         this.itemAcervo = itemAcervo;
     }
-    
 
+    @Override
+    public String toString() {
+        return itemAcervo + "quantidade: " + quantidade + " || localizacao: " + localizacao + "\n";
+    }
+    
     
 }

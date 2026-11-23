@@ -2,6 +2,8 @@ package Entidades.Acervos;
 
 
 import java.time.Instant;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 
 public abstract class ItemAcervo{
 
@@ -41,4 +43,10 @@ public abstract class ItemAcervo{
 
     public abstract double calcularMultaDiaria(int dias);
 
+    @Override
+    public String toString() {
+        DateTimeFormatter formato =  DateTimeFormatter.ofPattern("dd/MM/yyyy").withZone(ZoneId.of("America/Sao_Paulo"));
+
+        return "Titulo: " + titulo + " || Ano: " + ano + " || data de cadastro: " + formato.format(dataCadastro) + " || ";
+    }
 }
