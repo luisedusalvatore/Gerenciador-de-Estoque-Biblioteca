@@ -17,7 +17,7 @@ public final class Revista extends ItemAcervo{
     }
     @Override
     public double calcularMultaDiaria(int dias) {
-        return 0.5*dias;
+        return 0.25 * dias;
     }
     
 }

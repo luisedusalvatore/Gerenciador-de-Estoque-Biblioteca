@@ -21,7 +21,7 @@ public final class Dvd extends ItemAcervo{
     }
     @Override
     public double calcularMultaDiaria(int dias) {
-        return 20*dias;
+        return 1.0 * dias;
     }
     
 }

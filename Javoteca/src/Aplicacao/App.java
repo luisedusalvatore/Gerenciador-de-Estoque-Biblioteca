@@ -58,7 +58,10 @@ public class App {
                     dataString = sc.nextLine();
                     dataDate = LocalDate.parse(dataString, formato);
                     Instant data = dataDate.atStartOfDay(ZoneId.systemDefault()).toInstant();
-                    Usuario usuario = new Usuario(nome, email, data);
+                    Boolean inventario = false;
+                    Boolean multa = false;
+                    Double valor_multa = 0.0;
+                    Usuario usuario = new Usuario(nome, email, data, inventario, multa, valor_multa);
                     usuarios.addUsuario(usuario);
                     break;
                 case 2:
@@ -196,6 +199,17 @@ public class App {
                         emailUser = sc.nextLine();
                         u = usuarios.buscaUsuario(nomeUser, emailUser);
                     }
+
+                    // Verificação de status do usuario
+                    if(u.getInventario() == true){
+                        System.out.println("O usuário já tem um emprestimo em andamento. Após o fim do atual emprestimo o usuário poderá fazer outro.");
+                        break;
+                    }
+                    if(u.getMulta() == true){
+                        System.out.println("O usuário tem uma multa em aberto. Após efetuar o pagamento da multa o usuário poderá fazer um emprestimo.");
+                        break;
+                    }
+
                     System.out.println("Digite o nome do título");
                     String nomeTitulo = sc.nextLine();
                     ItemAcervo itemEmprestimo =  estoque.realizaEmprestimo(nomeTitulo);
@@ -213,6 +227,7 @@ public class App {
                     Instant dataPrevistaDevolucao = dataDate.atStartOfDay(ZoneId.systemDefault()).toInstant();
                     Emprestimo emprestimo = new Emprestimo(u, itemEmprestimo, dataEmprestimo, dataPrevistaDevolucao);
                     emprestimos.addEmprestimo(emprestimo);
+                    u.atualizarStatusEmprestimo(true, false, 0.0);
 
 
                     break;
@@ -244,16 +259,45 @@ public class App {
                         String dataDev = sc.nextLine();
                         LocalDate dataDateDev = LocalDate.parse(dataDev, formato);
                         Instant dataDevolucao = dataDateDev.atStartOfDay(ZoneId.systemDefault()).toInstant(); //conversão pra facilitar a digitação da data 
-                        e.registrarDevolucao(dataDevolucao); 
+                        e.registrarDevolucao(dataDevolucao);
                         if(e.diasAtraso() == 0){
-                            emprestimos.removeEmprestimo(e); // remove o item da lista caso não haja atraso na entrega
+                            u1.atualizarStatusEmprestimo(false, false, 0.0);
+                        }else{
+                            double vm = e.acessarValorMulta(e.diasAtraso()); // Pegando o valor da multa a ser paga.
+                            u1.atualizarStatusEmprestimo(false, true, vm);
                         }
+                        emprestimos.removeEmprestimo(e);
                     } 
                     break;
                 case 7:
-                    //verificar e pagar multa
-                    break;
+                    System.out.println("Digite o nome do usuário: ");
+                    String uName = sc.nextLine();
+                    System.out.println("Digite o email do usuário: ");
+                    String uMail = sc.nextLine();
+                    Usuario user = usuarios.buscaUsuario(uName, uMail);
+                    while(user == null){
+                        System.out.println("Usuário e/ou email inválido(s). Tente novamente.");
+                        System.out.println("Digite o nome do usuário: ");
+                        uName = sc.nextLine();
+                        System.out.println("Digite o email do usuário: ");
+                        uMail = sc.nextLine();  
+                        user = usuarios.buscaUsuario(uName, uMail);                                          
+                    }
 
+                    if(user.getMulta() == false){
+                        System.out.println("O usuário não tem multa a ser paga.");
+                        break;
+                    }else{
+                        Boolean inv = user.getInventario();
+                        Double valor = user.getValor_multa();
+                        System.out.printf("O usuario deve pagar um valor de R$ %.2f\n", valor);
+                        System.out.println("Como será o pagamento (Pix, débito, crédito, boleto ou a vista)?");
+                        sc.nextLine();
+                        System.out.println("Processando...");
+                        System.out.println("Pagamento efetuado com sucesso!");
+                        user.atualizarStatusEmprestimo(inv, false, 0.0);
+                        break;
+                    }
             }
         }while(op != 0);
         System.out.println("Saindo do sistema...");

@@ -1,18 +1,18 @@
 package Entidades.Emprestimos;
 
 import java.time.Instant;
-
+import java.time.temporal.ChronoUnit;
 import java.time.Duration;
 
 
 import Entidades.Acervos.ItemAcervo;
 
 public class Emprestimo {
-    Usuario usuario;
-    ItemAcervo item;
-    Instant dataEmprestimo;
-    Instant dataPrevistaDevolucao;
-    Instant dataDevolucao;
+    private Usuario usuario;
+    private ItemAcervo item;
+    private Instant dataEmprestimo;
+    private Instant dataPrevistaDevolucao;
+    private Instant dataDevolucao;
     
     
     public Emprestimo(Usuario usuario, ItemAcervo item, Instant dataEmprestimo, Instant dataPrevistaDevolucao) {
@@ -28,15 +28,15 @@ public class Emprestimo {
     }
 
     public Integer diasAtraso(){
-        if(dataDevolucao == null){
-            return 0;
-        }
         if(dataDevolucao.isAfter(dataPrevistaDevolucao)){
-            Duration duracao = Duration.between(dataPrevistaDevolucao, dataDevolucao);
-            return (int) duracao.toDays();
+            return (int) ChronoUnit.DAYS.between(dataPrevistaDevolucao, dataDevolucao);
         }
         
         return 0;
+    }
+
+    public Double acessarValorMulta(int dias){
+        return this.item.calcularMultaDiaria(dias);
     }
 
     public Usuario getUsuario() {

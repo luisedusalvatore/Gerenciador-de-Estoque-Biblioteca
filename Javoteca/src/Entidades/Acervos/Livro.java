@@ -3,9 +3,9 @@ package Entidades.Acervos;
 import java.time.Instant;
 
 public final class Livro extends ItemAcervo{
-    String autor;
-    String isbn;
-    Integer paginas;
+    private String autor;
+    private String isbn;
+    private Integer paginas;
     
     public Livro(String titulo, Integer ano, Instant dataCadastro, String autor,
             String isbn, Integer paginas) {
@@ -40,6 +40,6 @@ public final class Livro extends ItemAcervo{
     }
     @Override
     public double calcularMultaDiaria(int dias) {
-        return 2*dias;
+        return 0.5 * dias;
     }
 }
