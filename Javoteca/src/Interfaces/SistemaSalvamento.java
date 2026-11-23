@@ -1,6 +1,6 @@
 package Interfaces;
 
-public interface sistemaSalvamento {
+public interface SistemaSalvamento {
     public void Salvar();
     public void Carregar();
 }
