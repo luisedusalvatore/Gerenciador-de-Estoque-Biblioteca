@@ -1,6 +1,7 @@
 package Entidades.Emprestimos;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 public class Usuarios {
@@ -27,5 +28,11 @@ public class Usuarios {
     }
     public void setLista(List<Usuario> lista) {
         this.lista = lista;
+    }
+    public void ordenaNome(){
+        lista.sort(Comparator.comparing(Usuario::getNome));
+    }
+    public void ordenaEmail(){
+        lista.sort(Comparator.comparing(Usuario::getEmail));
     }
 }
