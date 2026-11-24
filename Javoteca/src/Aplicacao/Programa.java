@@ -10,6 +10,7 @@ import Entidades.Emprestimos.Usuarios;
 import Entidades.Estoques.Estoque;
 import Entidades.Estoques.ItemEstoque;
 import Enumeracoes.operacaoAlteracao;
+import Entidades.Emprestimos.Pagamento;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -304,21 +305,9 @@ public class Programa {
                         uMail = sc.nextLine();  
                         user = usuarios.buscaUsuario(uName, uMail);                                          
                     }
-
-                    if(user.getMulta() == false){
-                        System.out.println("O usuário não tem multa a ser paga.");
-                        break;
-                    }else{
-                        Boolean inv = user.getInventario();
-                        Double valor = user.getValor_multa();
-                        System.out.printf("O usuario deve pagar um valor de R$ %.2f\n", valor);
-                        System.out.println("Como será o pagamento (Pix, débito, crédito, boleto ou a vista)?");
-                        sc.nextLine();
-                        System.out.println("Processando...");
-                        System.out.println("Pagamento efetuado com sucesso!");
-                        user.atualizarStatusEmprestimo(inv, false, 0.0);
-                        break;
-                    }
+                    Pagamento pagamento = new Pagamento();
+                    pagamento.pagar(user);
+                    break;
                 case 8:
                     for(ItemEstoque ie : estoque.getItens()){
                         System.out.println(ie);
