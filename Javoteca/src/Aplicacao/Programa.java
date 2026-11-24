@@ -326,6 +326,24 @@ public class Programa {
 
                     break;
                 case 9:
+                    op2 = 0;
+                    do{
+                    System.out.println("1 - Imprimir nomes em ordem alfabética.");
+                    System.out.println("2 - impreme emails em ordem alfabética.");
+                    op2 = sc.nextInt();
+                    sc.nextLine();
+                    if(op2 < 1 || op2 > 2){
+                        System.out.println("\n~ OPÇÃO INVALIDA\ntente novamente ~");
+                        }
+                    }while (op2 < 1 || op2 > 2);
+
+                    if(op2 == 1){
+                        usuarios.ordenaNome();
+                    }
+                    else{
+                        usuarios.ordenaEmail();
+                    }
+                    
                     for(Usuario user1 : usuarios.getLista()){
                         System.out.println(user1);
                     }
