@@ -17,7 +17,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 import Excecoes.ItemIndisponivel;
 import Excecoes.ItemNaoEncontrado;
-public class App {
+public class Programa {
     public static void main(String[] args) throws Exception {
         Scanner sc = new Scanner(System.in);
         System.out.println("Bem vindo ao sistema Javoteca!");
