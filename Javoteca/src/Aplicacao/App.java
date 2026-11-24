@@ -15,7 +15,8 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
-
+import Excecoes.ItemIndisponivel;
+import Excecoes.ItemNaoEncontrado;
 public class App {
     public static void main(String[] args) throws Exception {
         Scanner sc = new Scanner(System.in);
@@ -230,11 +231,13 @@ public class App {
 
                     System.out.println("Digite o nome do título");
                     String nomeTitulo = sc.nextLine();
-                    ItemAcervo itemEmprestimo =  estoque.realizaEmprestimo(nomeTitulo);
-                    if(itemEmprestimo == null){
-                        System.out.println("Item não encontrado no acervo"); //luisão você tem que avisar quando não tiver item no acervo, fiquei batendo cabeça meia hora
+                    ItemAcervo itemEmprestimo = null;
+                    try {
+                        itemEmprestimo = estoque.realizaEmprestimo(nomeTitulo);
+                    } catch (ItemNaoEncontrado | ItemIndisponivel ex) {
+                        System.out.println(ex.getMessage());
                         break;
-                    } 
+                    }
                     System.out.println("Qual a data de empréstimo (dd/MM/yyyy)");
                     dataString = sc.nextLine();
                     dataDate = LocalDate.parse(dataString, formato);

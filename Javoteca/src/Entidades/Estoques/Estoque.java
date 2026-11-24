@@ -4,6 +4,8 @@ import java.util.List;
 
 import Entidades.Acervos.ItemAcervo;
 import Enumeracoes.operacaoAlteracao;
+import Excecoes.ItemIndisponivel;
+import Excecoes.ItemNaoEncontrado;
 
 import java.util.ArrayList;
 
@@ -26,14 +28,14 @@ public class Estoque {
     }
     public ItemEstoque buscarPorTitulo(String nome){
         for(ItemEstoque i : listaEstoque){
-            if(i.itemAcervo.getTitulo() == nome) return i;
+            if(i.getItemAcervo().getTitulo().equals(nome)) return i;
         }
         return null;
     }
     public int alteraQuantidade(String nome, int quantidade, operacaoAlteracao operacao){
         if(operacao == operacaoAlteracao.AUMENTAR){
             for(ItemEstoque i : listaEstoque){
-            if(i.itemAcervo.getTitulo() == nome){
+            if(i.getItemAcervo().getTitulo().equals(nome)){
                 i.quantidade += quantidade;
                 return 1;
             }
@@ -41,7 +43,7 @@ public class Estoque {
         }
         else if(operacao == operacaoAlteracao.DIMINUIR){
             for(ItemEstoque i : listaEstoque){
-            if(i.itemAcervo.getTitulo() == nome){
+            if(i.getItemAcervo().getTitulo().equals(nome)){
                 i.quantidade -= quantidade;
                 return 1;
             }
@@ -49,7 +51,7 @@ public class Estoque {
         }
         else if(operacao == operacaoAlteracao.ALTERAR){
             for(ItemEstoque i : listaEstoque){
-            if(i.itemAcervo.getTitulo() == nome){
+            if(i.getItemAcervo().getTitulo().equals(nome)){
                 i.quantidade = quantidade;
                 return 1;
             }
@@ -58,24 +60,19 @@ public class Estoque {
         return 0;
     }
 
-    public ItemAcervo realizaEmprestimo(String nome){
-        for(ItemEstoque i : listaEstoque){
-            if(i.getItemAcervo().getTitulo().equals(nome)){
-                if(i.quantidade >= 0){
-                    i.quantidade -= 1;
-                    return i.getItemAcervo();
-                }
-                else{
-                    System.out.println("Item indisponível do acervo");
-                    
-                }
-            }
-            else{
-                System.out.println("Item não encontrado no acervo");
-            }
+       public ItemAcervo realizaEmprestimo(String nome)
+            throws ItemNaoEncontrado, ItemIndisponivel {
+        ItemEstoque i = buscarPorTitulo(nome);
+        if (i == null) {
+            throw new ItemNaoEncontrado("Item '" + nome + "' não encontrado no acervo.");
         }
-        return null;
+        if (i.getQuantidade() <= 0) {
+            throw new ItemIndisponivel("Item '" + nome + "' sem exemplares disponíveis.");
+        }
+        i.quantidade -= 1;
+        return i.getItemAcervo();
     }
+
     public void ordenar(){
         listaEstoque.sort(null);
     }
