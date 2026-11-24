@@ -31,30 +31,34 @@ public class App {
         
         do{
             do{
-                System.out.println("Digite a opção desejada: ");
-                System.out.println("0 - Sair");
-                System.out.println("1 - Cadastrar usuário");
-                System.out.println("2 - Cadastrar item no estoque");
-                System.out.println("3 - Remover item do estoque");
-                System.out.println("4 - Alterar a quantidade de itens no estoque");
-                System.out.println("5 - Realizar empréstimo");
-                System.out.println("6 - Anotar devolução");
-                System.out.println("7 - Verificar multa e pagar");
-                System.out.println("8 - Imprimir acervo");
-                System.out.println("9 - Imprimir usuários");
+                System.out.println("\n\n\n-----------------------------------------------------");
+                System.out.println("DIGITE A OPÇÃO DESEJADA\n");
+                System.out.println("0)  Sair");
+                System.out.println("1)  Cadastrar usuário");
+                System.out.println("2)  Cadastrar item no estoque");
+                System.out.println("3)  Remover item do estoque");
+                System.out.println("4)  Alterar a quantidade de itens no estoque");
+                System.out.println("5)  Realizar empréstimo");
+                System.out.println("6)  Anotar devolução");
+                System.out.println("7)  Verificar multa e pagar");
+                System.out.println("8)  Imprimir acervo");
+                System.out.println("9)  Imprimir usuários");
+                System.out.println("-----------------------------------------------------\n");
+                System.out.print("-> ");
                 op = sc.nextInt();
                 sc.nextLine();
                 if(op < 0 || op > 9){
-                    System.out.println("Opção Inválida, tente novamente");
+                    System.out.println("\n~ OPÇÃO INVALIDA\ntente novamente ~");
                 }
             }while(op < 0 || op > 9);
             switch (op) {
                 case 1:
-                    System.out.println("Qual o nome do usuário? ");
+                    System.out.println("\n\n\n CADASTRO DE USUÁRIO \n");
+                    System.out.print("* Nome do usuário: ");
                     String nome = sc.nextLine();
-                    System.out.println("Digite o email do usuário? ");
+                    System.out.print("\n* Email do usuário: ");
                     String email = sc.nextLine();
-                    System.out.println("Digite a data de nascimento do usuário no formato dd/mm/yyyy");
+                    System.out.print("\n* Data de nascimento do usuário (dd/mm/yyyy): ");
                     dataString = sc.nextLine();
                     dataDate = LocalDate.parse(dataString, formato);
                     Instant data = dataDate.atStartOfDay(ZoneId.systemDefault()).toInstant();
@@ -63,50 +67,54 @@ public class App {
                     Double valor_multa = 0.0;
                     Usuario usuario = new Usuario(nome, email, data, inventario, multa, valor_multa);
                     usuarios.addUsuario(usuario);
+                    System.out.println("\n\n\n CADASTRO REALIZADO COM SUCESSO \n");
+                    sc.nextLine();
                     break;
                 case 2:
                     
                     ItemAcervo itemAcervo = null;
                     do{
-                        System.out.println("O selecione o tipo de item que sera cadastrado:");
+                        System.out.println("\n\n\n CADASTRO DE ITEM \n");
+                        System.out.println("* tipo de item:");
                         System.out.println("1 - Livro");
                         System.out.println("2 - Revista");
                         System.out.println("3 - DVD");
+                        System.out.print("-> ");
                         op2 = sc.nextInt();
                         sc.nextLine();
                         if(op2 < 1 || op2 > 3){
-                            System.out.println("Opção Inválida, tente novamente");
+                            System.out.println("\n~ OPÇÃO INVALIDA\ntente novamente ~");
                         }
                     } while(op2 < 1 || op2 > 3);
-                    System.out.println("Digite o nome do item: ");
+                    System.out.print("\n* Nome do item: ");
                     String titulo = sc.nextLine();
-                    System.out.println("Digite o ano de criação do item");
+                    System.out.print("\n* Ano de criação do item: ");
                     int ano = sc.nextInt();
                     sc.nextLine();
-                    System.out.println("Digite a data de cadastro do item dd/mm/yyyy");
+                    System.out.print("\n* Data de cadastro do item (dd/mm/yyyy): ");
                     dataString = sc.nextLine();
                     dataDate = LocalDate.parse(dataString, formato);
                     Instant dataCadastro = dataDate.atStartOfDay(ZoneId.systemDefault()).toInstant();
 
                     switch (op2) {
                         case 1:
-                            System.out.println("Digite o autor do titulo");
+                            System.out.print("\n* Autor do livro: ");
                             String autor = sc.nextLine();
-                            System.out.println("Digite o ISBN do livro");
+                            System.out.print("\n* ISBN do livro: ");
                             String isbn = sc.nextLine();
-                            System.out.println("Digite o número de páginas do livro");
+                            System.out.print("\n* Número de páginas do livro: ");
                             int paginas = sc.nextInt();
                             sc.nextLine();
                             itemAcervo = new Livro(titulo, ano, dataCadastro, autor, isbn, paginas);
                             break;
                         case 2:
-                            System.out.println("Digite a edição da revista");
+                            System.out.print("\n* Edição da revista: ");
                             int edicao = sc.nextInt();
                             sc.nextLine();
                             itemAcervo = new Revista(titulo, ano, dataCadastro, edicao);
                             break;
                         case 3:
-                            System.out.println("Digite a duração do filme em minutos");
+                            System.out.print("\n* Duração do filme (min): ");
                             int duracaoMinutos = sc.nextInt();
                             sc.nextLine();
                             itemAcervo = new Dvd(titulo, ano, dataCadastro, duracaoMinutos);
@@ -114,30 +122,37 @@ public class App {
                         default:
                             break;   
                     }
-                    System.out.println("Digite a quantidade desse item que serão inseridas no sistema: ");
+                    System.out.print("\n* Quantidade desse item que será inseridas no sistema: ");
                     int quantidade = sc.nextInt();
                     sc.nextLine();
-                    System.out.println("Digite a localização desse acervo");
+                    System.out.print("\n* Digite a localização desse acervo: ");
                     String localizacao = sc.nextLine();
                     ItemEstoque itemEstoque = new ItemEstoque(quantidade, localizacao, itemAcervo);
                     estoque.addItem(itemEstoque);
+                    System.out.println("\n\n\n CADASTRO REALIZADO COM SUCESSO \n");
+                    sc.nextLine();
                     break;
                 
                 case 3:
-                    System.out.println("Digite o nome do item que você deseja remover");
+                    System.out.println("\n\n\n REMOÇÃO DE ITEM\n");
+                    System.out.print("* Nome do item que será removido: ");
                     String nomeItem = sc.nextLine();
                     ItemEstoque i = estoque.buscarPorTitulo(nomeItem);
                     if(i != null){
+                        System.out.println("\n\nAPERTE ENTER PARA CONFIRMAR REMOÇÃO\n");
+                        sc.nextLine();
                         estoque.removeItem(i);
                     }
                     else{
-                        System.out.println("Erro, titulo não achado no sistema");
+                        System.out.println("\n ERRO\ntitulo não achado no sistema");
                     }
-                    
+                    System.out.println("\n\n\n REMOÇÃO REALIZADA COM SUCESSO \n");
+                    sc.nextLine();
                     break;
                 
                 case 4:
-                    System.out.println("Digite o nome do item que você deseja alterar o estoque");
+                    System.out.println("\n\n\nALTERAÇÃO DE QUANTIDADE\n");
+                    System.out.print("* Nome do item que será alterado no estoque: ");
                     String nomeAltera = sc.nextLine();
                     int quantidadeAltera;
                     do{
@@ -145,15 +160,16 @@ public class App {
                         System.out.println("1 - Aumentar a quantidade no estoque");
                         System.out.println("2 - Diminuir a quantidade no estoque");
                         System.out.println("3 - Alterar a quantidade no estoque");
+                        System.out.print("-> ");
                         op2 = sc.nextInt();
                         sc.nextLine();
                         if(op2 < 1 || op2 > 3){
-                            System.out.println("Opção inválida! tente novamente");
+                            System.out.println("\nOPÇÃO INVALIDA\ntente novamente:");
                         }
                     }while(op2 < 1 || op2 > 3);
                     switch (op2) {
                         case 1:
-                            System.out.println("Quantos itens você deseja adicioar ao estoque?");
+                            System.out.print("\n* Quantidade que será adicionada ao estoque: ");
                             quantidadeAltera = sc.nextInt();
                             sc.nextLine();
                             estoque.alteraQuantidade(nomeAltera, quantidadeAltera, operacaoAlteracao.AUMENTAR);
@@ -161,22 +177,22 @@ public class App {
                         case 2:
                             
                             do{
-                                System.out.println("Quantos itens você deseja remover do estoque?");
+                                System.out.print("\n* Quantidade que será removida do estoque: ");
                                 quantidadeAltera = sc.nextInt();
                                 sc.nextLine();
                                 if(quantidadeAltera > estoque.buscarPorTitulo(nomeAltera).getQuantidade()){
-                                    System.out.println("Digite um número válido");
+                                    System.out.println("~ Digite um número válido ~");
                                 }
                             }while(quantidadeAltera > estoque.buscarPorTitulo(nomeAltera).getQuantidade());
                             estoque.alteraQuantidade(nomeAltera, quantidadeAltera, operacaoAlteracao.DIMINUIR);
                             break;
                         case 3:
                             do{
-                                System.out.println("Qual a nova quantidade no estoque? ");
+                                System.out.print("\n* Quantidade de estoque: ");
                                 quantidadeAltera = sc.nextInt();
                                 sc.nextLine();
                                 if(quantidadeAltera < 0){
-                                    System.out.println("Digite um número válido");
+                                    System.out.println("~ Digite um número válido ~");
                                 }
                             }while(quantidadeAltera < 0);
                             estoque.alteraQuantidade(nomeAltera, quantidadeAltera, operacaoAlteracao.ALTERAR);
@@ -184,6 +200,8 @@ public class App {
                         default:
                             break;
                     }
+                    System.out.println("\n\n\n ALTERAÇÃO REALIZADA COM SUCESSO \n");
+                    sc.nextLine();
                     break;
                 case 5:
                     System.out.println("Digite o nome do usuário");
