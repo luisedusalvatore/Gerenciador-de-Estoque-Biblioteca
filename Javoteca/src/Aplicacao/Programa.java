@@ -71,14 +71,15 @@ public class Programa {
                 System.out.println("7)  Verificar multa e pagar");
                 System.out.println("8)  Imprimir acervo");
                 System.out.println("9)  Imprimir usuários");
+                System.out.println("10)  Excluir usuário");
                 System.out.println("-----------------------------------------------------\n");
                 System.out.print("-> ");
                 op = sc.nextInt();
                 sc.nextLine();
-                if(op < 0 || op > 9){
+                if(op < 0 || op > 10){
                     System.out.println("\n~ OPÇÃO INVALIDA\ntente novamente ~");
                 }
-            }while(op < 0 || op > 9);
+            }while(op < 0 || op > 10);
 
             // Direciona a opção digitada para a operação correspondente.
             switch (op) {
@@ -384,6 +385,22 @@ public class Programa {
                     }
 
                     break;
+                case 10:
+                    // Busca o usuário e exclui o usuário
+                    System.out.println("Digite o nome do usuário");
+                    String nomeUser1 = sc.nextLine();
+                    System.out.println("Digite o email do usuário");
+                    String emailUser1 = sc.nextLine();
+                    Usuario u2 = usuarios.buscaUsuario(nomeUser1, emailUser1);
+                    while(u2 == null){
+                        System.out.println("Usuário e/ou email inválido(s). Tente novamente.");
+                        System.out.println("Digite o nome do usuário");
+                        nomeUser1 = sc.nextLine();
+                        System.out.println("Digite o email do usuário");
+                        emailUser1 = sc.nextLine();
+                        u2 = usuarios.buscaUsuario(nomeUser1, emailUser1);                                         
+                    }
+                    usuarios.removeUsuario(u2);
             }
         }while(op != 0);
         // Persiste todas as alterações antes de encerrar o programa.
