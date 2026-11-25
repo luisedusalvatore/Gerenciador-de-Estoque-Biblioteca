@@ -31,16 +31,22 @@ import Excecoes.ItemIndisponivel;
 import Excecoes.ItemNaoEncontrado;
 public class Programa {
     public static void main(String[] args) throws Exception {
+        // Entrada de dados utilizada pelas opções do menu.
         Scanner sc = new Scanner(System.in);
         System.out.println("Bem vindo ao sistema Javoteca!");
         int op ;
         int op2 = 0;
+        // Formato esperado para todas as datas digitadas pelo usuário.
         DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         String dataString;
         LocalDate dataDate;
+
+        // Objetos responsáveis pelas operações de estoque, usuários e empréstimos.
         Estoque estoque = new Estoque();
         Usuarios usuarios = new Usuarios();
         Emprestimos emprestimos = new Emprestimos();
+
+        // Carrega os dados persistidos ao iniciar e permite salvá-los ao sair.
         SistemaSalvamento arquivo = new SalvamentoCsv(estoque, usuarios, emprestimos);
         arquivo.Carregar();
 
@@ -50,6 +56,7 @@ public class Programa {
                 new Pix(), new Debito(), new Credito(), new Boleto(), new AVista());
         MenuPagamento menuPagamento = new MenuPagamento(sc, sistemaPagamento, meiosPagamento);
         
+        // Loop principal: repete o menu até a opção zero ser escolhida.
         do{
             do{
                 System.out.println("\n\n\n-----------------------------------------------------");
@@ -72,9 +79,12 @@ public class Programa {
                     System.out.println("\n~ OPÇÃO INVALIDA\ntente novamente ~");
                 }
             }while(op < 0 || op > 9);
+
+            // Direciona a opção digitada para a operação correspondente.
             switch (op) {
                 case 1:
                     System.out.println("\n\n\n CADASTRO DE USUÁRIO \n");
+                    // Coleta os dados e cria o usuário com status inicial liberado.
                     System.out.print("* Nome do usuário: ");
                     String nome = sc.nextLine();
                     System.out.print("\n* Email do usuário: ");
@@ -93,6 +103,7 @@ public class Programa {
                     break;
                 case 2:
                     
+                    // Recebe os dados comuns e específicos do tipo escolhido.
                     ItemAcervo itemAcervo = null;
                     do{
                         System.out.println("\n\n\n CADASTRO DE ITEM \n");
@@ -117,6 +128,7 @@ public class Programa {
                     dataDate = LocalDate.parse(dataString, formato);
                     Instant dataCadastro = dataDate.atStartOfDay(ZoneId.systemDefault()).toInstant();
 
+                    // Instancia a classe correspondente ao tipo de acervo.
                     switch (op2) {
                         case 1:
                             System.out.print("\n* Autor do livro: ");
@@ -143,6 +155,7 @@ public class Programa {
                         default:
                             break;   
                     }
+                    // Vincula quantidade e localização ao item criado.
                     System.out.print("\n* Quantidade desse item que será inseridas no sistema: ");
                     int quantidade = sc.nextInt();
                     sc.nextLine();
@@ -158,6 +171,7 @@ public class Programa {
                     System.out.println("\n\n\n REMOÇÃO DE ITEM\n");
                     System.out.print("* Nome do item que será removido: ");
                     String nomeItem = sc.nextLine();
+                    // Só remove o item após confirmar que ele existe no estoque.
                     ItemEstoque i = estoque.buscarPorTitulo(nomeItem);
                     if(i != null){
                         System.out.println("\n\nAPERTE ENTER PARA CONFIRMAR REMOÇÃO\n");
@@ -176,6 +190,7 @@ public class Programa {
                     System.out.print("* Nome do item que será alterado no estoque: ");
                     String nomeAltera = sc.nextLine();
                     int quantidadeAltera;
+                    // Escolhe como a quantidade será modificada.
                     do{
                         System.out.println("Selecione a opção desejada:");
                         System.out.println("1 - Aumentar a quantidade no estoque");
@@ -225,11 +240,13 @@ public class Programa {
                     sc.nextLine();
                     break;
                 case 5:
+                    // Localiza o usuário que solicitará o empréstimo.
                     System.out.println("Digite o nome do usuário");
                     String nomeUser = sc.nextLine();
                     System.out.println("Digite o email do usuário");
                     String emailUser = sc.nextLine();
                     Usuario u = usuarios.buscaUsuario(nomeUser, emailUser);
+                    // Exige um usuário já cadastrado antes de continuar.
                     while(u == null){
                         System.out.println("Nome e/ou email inválido, tente novamente");
                         System.out.println("Digite o nome do usuário");
@@ -239,16 +256,18 @@ public class Programa {
                         u = usuarios.buscaUsuario(nomeUser, emailUser);
                     }
 
-                    // Verificação de status do usuario
+                    // Um usuário não pode iniciar outro empréstimo com um ativo.
                     if(u.getInventario() == true){
                         System.out.println("O usuário já tem um emprestimo em andamento. Após o fim do atual emprestimo o usuário poderá fazer outro.");
                         break;
                     }
+                    // Uma multa pendente bloqueia novos empréstimos.
                     if(u.getMulta() == true){
                         System.out.println("O usuário tem uma multa em aberto. Após efetuar o pagamento da multa o usuário poderá fazer um emprestimo.");
                         break;
                     }
 
+                    // Valida o título e atualiza a quantidade disponível no estoque.
                     System.out.println("Digite o nome do título");
                     String nomeTitulo = sc.nextLine();
                     ItemAcervo itemEmprestimo = null;
@@ -268,11 +287,13 @@ public class Programa {
                     Instant dataPrevistaDevolucao = dataDate.atStartOfDay(ZoneId.systemDefault()).toInstant();
                     Emprestimo emprestimo = new Emprestimo(u, itemEmprestimo, dataEmprestimo, dataPrevistaDevolucao);
                     emprestimos.addEmprestimo(emprestimo);
+                    // Marca o usuário como ocupado até registrar a devolução.
                     u.atualizarStatusEmprestimo(true, false, 0.0);
 
 
                     break;
                 case 6:
+                    // Localiza o usuário responsável pela devolução.
                     System.out.println("Digite o nome do usuário: ");
                     String userName = sc.nextLine();
                     System.out.println("Digite o email do usuário: ");
@@ -290,6 +311,7 @@ public class Programa {
                     System.out.print("Digite o título do item a ser devolvido: ");
                     String itemTitulo = sc.nextLine();
 
+                    // Busca o empréstimo ativo correspondente ao usuário e ao título.
                     Emprestimo e = emprestimos.buscaEmprestimo(u1, itemTitulo); // função pra saber se o emprestimo existe na lista de emprestimos
                     if (e == null){
                         System.out.println("Emprestimo não encontrado");
@@ -301,17 +323,20 @@ public class Programa {
                         LocalDate dataDateDev = LocalDate.parse(dataDev, formato);
                         Instant dataDevolucao = dataDateDev.atStartOfDay(ZoneId.systemDefault()).toInstant(); //conversão pra facilitar a digitação da data 
                         e.registrarDevolucao(dataDevolucao);
+                        // Libera o usuário sem multa quando não existe atraso.
                         if(e.diasAtraso() == 0){
                             u1.atualizarStatusEmprestimo(false, false, 0.0);
                         }else{
                             double vm = e.acessarValorMulta(e.diasAtraso()); // Pegando o valor da multa a ser paga.
                             u1.atualizarStatusEmprestimo(false, true, vm);
                         }
+                        // Remove o empréstimo concluído e repõe o item no estoque.
                         emprestimos.removeEmprestimo(e);
                         estoque.alteraQuantidade(e.getItem().getTitulo(), 1, operacaoAlteracao.AUMENTAR);
                     } 
                     break;
                 case 7:
+                    // Identifica o usuário que possui uma possível multa.
                     System.out.println("Digite o nome do usuário: ");
                     String uName = sc.nextLine();
                     System.out.println("Digite o email do usuário: ");
@@ -328,6 +353,7 @@ public class Programa {
                     menuPagamento.executar(user);
                     break;
                 case 8:
+                    // Lista todos os itens registrados no estoque.
                     for(ItemEstoque ie : estoque.getItens()){
                         System.out.println(ie);
                     }
@@ -335,6 +361,7 @@ public class Programa {
                     break;
                 case 9:
                     op2 = 0;
+                    // Define o campo usado para ordenar a impressão dos usuários.
                     do{
                     System.out.println("1 - Imprimir nomes em ordem alfabética.");
                     System.out.println("2 - impreme emails em ordem alfabética.");
@@ -359,6 +386,7 @@ public class Programa {
                     break;
             }
         }while(op != 0);
+        // Persiste todas as alterações antes de encerrar o programa.
         System.out.println("Saindo do sistema...");
         arquivo.Salvar();
         sc.close();

@@ -10,19 +10,24 @@ import java.time.Instant;
 import java.time.format.DateTimeParseException;
 
 public class SalvamentoCsv implements SistemaSalvamento {
+    // Caminhos dos arquivos usados para separar usuários, estoque e empréstimos.
     private static final String ARQ_USUARIOS = "usuarios.csv";
     private static final String ARQ_ESTOQUE = "estoque.csv";
     private static final String ARQ_EMPRESTIMOS = "emprestimos.csv";
 
+    // Referências às coleções em memória que serão persistidas ou reconstruídas.
     private Estoque estoque;
     private Usuarios usuarios;
     private Emprestimos emprestimos;
 
+    // Recebe as coleções existentes para ler ou gravar seus dados.
     public SalvamentoCsv(Estoque estoque, Usuarios usuarios, Emprestimos emprestimos) {
         this.estoque = estoque;
         this.usuarios = usuarios;
         this.emprestimos = emprestimos;
     }
+
+    // Grava um registro por usuário, usando ponto e vírgula como separador.
     private void salvarUsuarios() {
         try (PrintWriter pw = new PrintWriter(new FileWriter(ARQ_USUARIOS))) {
             for (Usuario u : usuarios.getLista()) {
@@ -34,6 +39,7 @@ public class SalvamentoCsv implements SistemaSalvamento {
         }
     }
 
+    // Grava cada item com campos próprios de seu tipo: livro, revista ou DVD.
     private void salvarEstoque() {
         try (PrintWriter pw = new PrintWriter(new FileWriter(ARQ_ESTOQUE))) {
             for (ItemEstoque ie : estoque.getItens()) {
@@ -57,6 +63,7 @@ public class SalvamentoCsv implements SistemaSalvamento {
         }
     }
 
+    // Grava os dados necessários para reconstruir cada empréstimo.
     private void salvarEmprestimos() {
         try (PrintWriter pw = new PrintWriter(new FileWriter(ARQ_EMPRESTIMOS))) {
             for (Emprestimo e : emprestimos.getEmprestimos()) {
@@ -68,6 +75,8 @@ public class SalvamentoCsv implements SistemaSalvamento {
             System.out.println("Erro ao salvar empréstimos: " + e.getMessage());
         }
     }
+
+    // Lê usuários existentes e ignora somente linhas com formato inválido.
     private void carregarUsuarios() {
         File arquivo = new File(ARQ_USUARIOS);
         if (!arquivo.exists()) return;
@@ -93,6 +102,7 @@ public class SalvamentoCsv implements SistemaSalvamento {
         }
     }
 
+    // Reconstrói o estoque a partir do tipo informado em cada linha.
     private void carregarEstoque() {
         File arquivo = new File(ARQ_ESTOQUE);
         if (!arquivo.exists()) return;
@@ -106,6 +116,7 @@ public class SalvamentoCsv implements SistemaSalvamento {
                 try {
                     String[] c = linha.split(";");
                     String tipo = c[0];
+                    // Os campos comuns ficam nas mesmas posições para todos os tipos.
                     String titulo = c[1];
                     int ano = Integer.parseInt(c[2]);
                     Instant cadastro = Instant.parse(c[3]);
@@ -113,6 +124,7 @@ public class SalvamentoCsv implements SistemaSalvamento {
                     String localizacao = c[5];
 
                     ItemAcervo item;
+                    // Instancia a classe correta e lê os campos específicos de cada tipo.
                     if (tipo.equals("LIVRO")) {
                         item = new Livro(titulo, ano, cadastro, c[6], c[7], Integer.parseInt(c[8]));
                     } else if (tipo.equals("REVISTA")) {
@@ -133,6 +145,7 @@ public class SalvamentoCsv implements SistemaSalvamento {
         }
     }
 
+    // Recarrega os empréstimos relacionando usuários e itens já carregados.
     private void carregarEmprestimos() {
         File arquivo = new File(ARQ_EMPRESTIMOS);
         if (!arquivo.exists()) return;
@@ -147,6 +160,7 @@ public class SalvamentoCsv implements SistemaSalvamento {
                     String[] c = linha.split(";");
                     Usuario u = usuarios.buscaUsuario(c[0], c[1]);
                     ItemEstoque ie = estoque.buscarPorTitulo(c[2]);
+                    // Não restaura referências cujo usuário ou item tenha sido removido.
                     if (u == null || ie == null) {
                         System.out.println("emprestimos.csv: linha " + numero + " ignorada (usuário ou item não existe mais).");
                         continue;
@@ -164,6 +178,7 @@ public class SalvamentoCsv implements SistemaSalvamento {
 
 
     @Override
+    // Persiste todas as coleções nos respectivos arquivos CSV.
     public void Salvar() {
         salvarUsuarios();
         salvarEstoque();
@@ -171,6 +186,7 @@ public class SalvamentoCsv implements SistemaSalvamento {
     }
 
     @Override
+    // Restaura os dados na ordem necessária para estabelecer todas as relações.
     public void Carregar() {
         // ordem importa: empréstimos dependem de usuários e estoque
         carregarUsuarios();
