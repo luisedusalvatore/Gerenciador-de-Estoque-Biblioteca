@@ -18,6 +18,9 @@ import Entidades.Pagamentos.Debito;
 import Entidades.Pagamentos.Pix;
 import Interfaces.MeioPagamento;
 import Interfaces.SistemaPagamento;
+import Interfaces.SistemaSalvamento;
+import Persistencia.SalvamentoCsv;
+
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -38,8 +41,10 @@ public class Programa {
         Estoque estoque = new Estoque();
         Usuarios usuarios = new Usuarios();
         Emprestimos emprestimos = new Emprestimos();
+        SistemaSalvamento arquivo = new SalvamentoCsv(estoque, usuarios, emprestimos);
+        arquivo.Carregar();
 
-        // Composition root: único ponto que conhece as classes concretas de pagamento.
+        // único ponto que conhece as classes concretas de pagamento.
         SistemaPagamento sistemaPagamento = new Pagamento();
         List<MeioPagamento> meiosPagamento = List.of(
                 new Pix(), new Debito(), new Credito(), new Boleto(), new AVista());
@@ -354,7 +359,7 @@ public class Programa {
             }
         }while(op != 0);
         System.out.println("Saindo do sistema...");
-
+        arquivo.Salvar();
         sc.close();
     }
 }
