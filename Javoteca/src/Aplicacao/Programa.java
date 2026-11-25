@@ -11,10 +11,18 @@ import Entidades.Estoques.Estoque;
 import Entidades.Estoques.ItemEstoque;
 import Enumeracoes.operacaoAlteracao;
 import Entidades.Emprestimos.Pagamento;
+import Entidades.Pagamentos.AVista;
+import Entidades.Pagamentos.Boleto;
+import Entidades.Pagamentos.Credito;
+import Entidades.Pagamentos.Debito;
+import Entidades.Pagamentos.Pix;
+import Interfaces.MeioPagamento;
+import Interfaces.SistemaPagamento;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.Scanner;
 import Excecoes.ItemIndisponivel;
 import Excecoes.ItemNaoEncontrado;
@@ -30,6 +38,12 @@ public class Programa {
         Estoque estoque = new Estoque();
         Usuarios usuarios = new Usuarios();
         Emprestimos emprestimos = new Emprestimos();
+
+        // Composition root: único ponto que conhece as classes concretas de pagamento.
+        SistemaPagamento sistemaPagamento = new Pagamento();
+        List<MeioPagamento> meiosPagamento = List.of(
+                new Pix(), new Debito(), new Credito(), new Boleto(), new AVista());
+        MenuPagamento menuPagamento = new MenuPagamento(sc, sistemaPagamento, meiosPagamento);
         
         do{
             do{
@@ -305,8 +319,7 @@ public class Programa {
                         uMail = sc.nextLine();  
                         user = usuarios.buscaUsuario(uName, uMail);                                          
                     }
-                    Pagamento pagamento = new Pagamento();
-                    pagamento.pagar(user);
+                    menuPagamento.executar(user);
                     break;
                 case 8:
                     for(ItemEstoque ie : estoque.getItens()){
