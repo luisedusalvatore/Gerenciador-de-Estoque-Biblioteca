@@ -308,6 +308,7 @@ public class Programa {
                             u1.atualizarStatusEmprestimo(false, true, vm);
                         }
                         emprestimos.removeEmprestimo(e);
+                        estoque.alteraQuantidade(e.getItem().getTitulo(), 1, operacaoAlteracao.AUMENTAR);
                     } 
                     break;
                 case 7:
